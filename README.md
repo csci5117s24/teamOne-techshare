@@ -21,7 +21,7 @@ Rich text editors are software tools for text input. Chances are that if you use
 
 
 
-This is an example of a rich text editor
+This is an example of a rich text editor[5]
 
 ![](/images/image_14.png?raw=true)
 
@@ -381,3 +381,4 @@ Overall, if you're looking for a rich text editor to add to your site, Quill is 
 [Quickstart](https://quilljs.com/docs/quickstart/)  
 [More Customization](https://quilljs.com/guides/how-to-customize-quill/)  
 [Toolbars](https://quilljs.com/docs/modules/toolbar/)  
+[5](https://www.figma.com/community/file/1151835635035453381/rich-text-editor)
