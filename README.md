@@ -9,6 +9,7 @@
 6. [Using the Data](#using-the-data)
     - [Delta](#delta)
     - [HTML](#html)
+    - [Saving/Loading the Data](#savingloading-the-data-from-the-server)
     - [Images](#images)
 7. [Conclusion](#conclusion)
 8. [References and Links to More Info](#references-and-links-to-more-info)
@@ -22,7 +23,7 @@ Rich text editors are software tools for text input. Chances are that if you use
 
 This is an example of a rich text editor
 
-![Rich Text Editor](https://s3-alpha.figma.com/hub/file/2338342817/fa466b30-5825-46de-a8b9-5fc60b9c2e0c-cover.png "This is a rich text editor")
+![](/images/image_14.png?raw=true)
 
 Many rich text editors fall under the category of "WYSIWYG", standing for "What you see is what you get". This indicates that whatever is in the editor at the time the post is published will be reflected in the finished product. Another common kind of rich text editor is a markup editor, which allows users to edit text with markdown or some similar language. 
 
@@ -282,7 +283,7 @@ At this point, you now have the delta version of the editor contents. You now ha
 const quillHtml = quill.getSemanticHtml()
 ```
 
-At this point the HTML equivalent of the editor contents are stored in the quillHtml variable! This is more simple than parsing the delta object.
+At this point the HTML equivalent of the editor contents are stored in the quillHtml variable.
 
 **Warning:** Be sure to sanitize the html before putting it in use! You can do this after sending the data to the server. Specifically, make sure users don't input <script></script> or other malicious elements anywhere in the HTML. This is to help prevent any XSS attacks so your website stays safe and secure. In a lot of places, this There are many libraries to help with this, including [this](https://www.npmjs.com/package/sanitize-html) library for node and [this](https://pypi.org/project/html-sanitizer/) for python. Sanitizers usually do their jobs with a mixture of removing, escaping, and encoding potentially malicious elements in html.
 
@@ -293,7 +294,7 @@ If you're stuck deciding between whether to store HTML or delta objects, you can
 quill.setContents({"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"},{"insert":"\n"}]})
 ```
 
-### Saving/Loading the Data
+### Saving/Loading the Data From the Server
 Now that we know how to get the data from the editor, we should consider how to send it to the server. One possible way to do so is through the use of a POST request, assuming you have an endpoint in your server for it. Say we had an endpoint /addcontent which would insert the content into some kind of data storage. We could do a fetch to that endpoint with the data as the body, stored in something like a JSON or FormData object. 
 
 An endpoint for the POST might look like this. 
