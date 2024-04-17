@@ -339,7 +339,7 @@ submit_button.addEventListener('click', async function (){
 For the editing scenario we previously went over, you would most likely want to do something similar. Say we have a scenario in which some kind of article has an edit button. To make the edit button effective, we can query the data storage with fetch(or get the data before rendering and use it when generating the page) and generate the Quill editor on the click of the button. Then use quill.setContents(delta) to load in the data from the delta onto the editor. 
 
 ### Images
-By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an img element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents.  
+By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. You can either upload links from the internet or a base64 encoded image url. Then, it will add an img element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents.  
 
 ![](/images/image_13.png?raw=true)
 
