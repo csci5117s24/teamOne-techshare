@@ -23,7 +23,7 @@ Rich text editors are software tools for text input. Chances are that if you use
 
 This is an example of a rich text editor[5]
 
-![](/images/image_14.png?raw=true)
+![](/images/image_16.png?raw=true)
 
 Many rich text editors fall under the category of "WYSIWYG", standing for "What you see is what you get". This indicates that whatever is in the editor at the time the post is published will be reflected in the finished product. Another common kind of rich text editor is a markup editor, which allows users to edit text with markdown or some similar language. 
 
@@ -381,4 +381,4 @@ Overall, if you're looking for a rich text editor to add to your site, Quill is 
 [Quickstart](https://quilljs.com/docs/quickstart/)  
 [More Customization](https://quilljs.com/guides/how-to-customize-quill/)  
 [Toolbars](https://quilljs.com/docs/modules/toolbar/)  
-[5](https://www.figma.com/community/file/1151835635035453381/rich-text-editor)
+[5](https://hygraph.com/docs/guides/content/rich-text-editor)
