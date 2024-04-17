@@ -51,14 +51,34 @@ quill.on('image', function(imgdata){
 
 const submit_button = document.getElementById("submit_button")
 
-submit_button.addEventListener('click', function (){
+submit_button.addEventListener('click', async function (){
 
   // make your pick of html or delta
   const quillContent = quill.getContents();
   const quillHTML = quill.getSemanticHTML();
 
-  console.log(quillContent);
-  console.log(quillHTML);
+  let to_send = {content: quillContent, html: quillHTML}
+
+  const requestOptions = {
+    method: "POST", 
+    headers: {
+      'Content-Type': "application/json"
+    }, 
+    body: JSON.stringify(to_send)
+  }
+
+  let result = await fetch('/addcontent', requestOptions)
+  
+
+  if(result.ok){
+    return "Passed"
+  }
+  else{
+    return "Failed"
+  }
+
+
+
 
   // make sure to also send image data from variable along with the editor contents. 
 

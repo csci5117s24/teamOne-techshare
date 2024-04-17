@@ -290,7 +290,46 @@ quill.setContents({"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"}
 ### Saving/Loading the Data
 Now that we know how to get the data from the editor, we should consider how to send it to the server. One possible way to do so is through the use of a POST request, assuming you have an endpoint in your server for it. Say we had an endpoint /addcontent which would insert the content into some kind of data storage. We could do a fetch to that endpoint with the data as the body, stored in something like a JSON or FormData object. 
 
-For the editing scenario we just went over, you would most likely want to do something similar. Say we have a scenario in which some kind of article has an edit button. To make the edit button effective, we can query the data storage with fetch and generate the Quill editor on the click of the button, then use quill.setContents(delta) to load in the data from the delta onto the editor. 
+An endpoint for the POST might look like this. 
+
+```
+app.post('/addcontent', (req, res) =>{
+    let delta = req.body.content
+    let html = req.body.html
+
+    // process the data
+    // sanitize html, add delta/html to database, etc.
+})
+```
+
+The POST itself would be on the submit button we initialized earlier. 
+
+```
+submit_button.addEventListener('click', async function (){
+
+  const quillContent = quill.getContents();
+  const quillHTML = quill.getSemanticHTML();
+
+  let to_send = {content: quillContent, html: quillHTML}
+
+  const requestOptions = {
+    method: "POST", 
+    headers: {
+      'Content-Type': "application/json"
+    }, 
+    body: JSON.stringify(to_send)
+  }
+
+  let result = await fetch('/addcontent', requestOptions)
+  
+  if(!result.ok){
+    console.log("Failed")
+  }
+
+})
+```
+
+For the editing scenario we previously went over, you would most likely want to do something similar. Say we have a scenario in which some kind of article has an edit button. To make the edit button effective, we can query the data storage with fetch(or get the data before rendering and use it when generating the page) and generate the Quill editor on the click of the button. Then use quill.setContents(delta) to load in the data from the delta onto the editor. 
 
 ### Images
 By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an img element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents.  
