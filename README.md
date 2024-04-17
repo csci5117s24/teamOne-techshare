@@ -381,4 +381,4 @@ Overall, if you're looking for a rich text editor to add to your site, Quill is 
 [Quickstart](https://quilljs.com/docs/quickstart/)  
 [More Customization](https://quilljs.com/guides/how-to-customize-quill/)  
 [Toolbars](https://quilljs.com/docs/modules/toolbar/)  
-[*Rich Text Editor Image](https://hygraph.com/docs/guides/content/rich-text-editor)
+* [Rich Text Editor Image](https://hygraph.com/docs/guides/content/rich-text-editor)
