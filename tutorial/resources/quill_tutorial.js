@@ -77,9 +77,4 @@ submit_button.addEventListener('click', async function (){
     return "Failed"
   }
 
-
-
-
-  // make sure to also send image data from variable along with the editor contents. 
-
 })

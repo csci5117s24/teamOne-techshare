@@ -195,9 +195,15 @@ Now, when you look at what this HTML displays, you should see a basic Quill edit
 ## Customization
 At this point we now have a Quill editor on our page. The next objective is to add more customization to it. Luckily, Quill makes this fairly simple through the use of modules, specifically a toolbar.
 
-You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). 
+You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. 
 
-So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. 
+```
+const toolbarContainer = [];
+```
+
+The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). 
+
+So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar elements like so. 
 
 ```
 const toolbarContainer = [
