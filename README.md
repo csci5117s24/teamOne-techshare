@@ -16,12 +16,19 @@
 
 
 ## Rich Text Editors
-Rich text editors are software tools for text input. Unlike plain text editors, rich text editors allow for a variety of formats to make the text more visually appealing. Some of the most common features present in many rich text editors include text formatting options for fonts/text size/weight, multimedia embedding, tables and lists, undo/redo features, and more. The chances are that if you use the internet often, you probably have interacted with a rich text editor, or at least the byproducts of one. One example of a system that uses a rich text editor is Wikipedia, which uses it for generating and editing page content.
+Rich text editors are software tools for text input. Chances are that if you use the internet often, you probably have interacted with a rich text editor, or at least the byproducts of one. One example of a system that uses a rich text editor is Wikipedia, which uses it for generating and editing page content.
+
+
+
+This is an example of a rich text editor
+
+![Rich Text Editor](https://s3-alpha.figma.com/hub/file/2338342817/fa466b30-5825-46de-a8b9-5fc60b9c2e0c-cover.png "This is a rich text editor")
 
 Many rich text editors fall under the category of "WYSIWYG", standing for "What you see is what you get". This indicates that whatever is in the editor at the time the post is published will be reflected in the finished product. Another common kind of rich text editor is a markup editor, which allows users to edit text with markdown or some similar language. 
 
+
 ## Quill
-This tutorial discusses one of the options for someone looking to add a rich text editor to their own site, the open source JavaScript library Quill.js. Quill falls under the category of WYSIWYG editors. It is extremely flexible, providing options for text styling(size, bold, italics, underlines, etc.), alignment, lists, tables, and much more, all wrapped up in a clean UI. It is highly customizable to the developers needs as well, with many options for extending the functionality of the editor. Next up, a tutorial on how to integrate a Quill.js editor into your application.
+This tutorial discusses one of the options for someone looking to add a rich text editor to their own site, the open source JavaScript library Quill.js. Quill is an extremely flexible and versatile WYSIWYG editor, providing options for text styling(size, bold, italics, underlines, etc.), alignment, lists, tables, and much more, all wrapped up in a clean UI. It is highly customizable to the developers needs as well, with many options for extending the functionality of the editor. Next up, a tutorial on how to integrate a Quill.js editor into your application.
 
 ## Setup Environment 
 We will be using mostly JavaScript and HTML here to demonstrate, so it is assumed that you have some basic knowledge of both. Any method you have to view/serve your files will be good. In this tutorial we will use an express.js server to show our main html file(and the static js file that it links to). Besides what we show here, [this](https://medium.com/@naveednadaf/quick-node-express-js-project-setup-guide-88cd4d9a7af3) is another quick tutorial on how to set up an express server that goes over pretty much everything you'll need for this, from installation to routing. 
@@ -192,13 +199,6 @@ You can generate a toolbar to be used when intializing the editor. Before you do
 
 So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. 
 
-One thing to note is to override default settings for something, you can add a 'false' to the options. This can be seen in the header settings, which are set to ['3', 'false'] to indicate that it should include level 3 headers and to get rid of any other default levels offered.
-
-Some more things to remember
-- Giving options for something as an empty array such as '[]' will just give the default options for the toolbar.
-- Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
-- More simple items such as text formatting or single options like the clean option are just strings in their arrays. 
-
 ```
 const toolbarContainer = [
   [{'header': ['3',false]}],
@@ -212,7 +212,13 @@ const toolbarContainer = [
 ];
 ```
 
-Then, alter the Quill editor to include the toolbar as a module. 
+Some things to note
+- Giving options for something as an empty array such as '[]' will just give the default options for the toolbar.
+- Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
+- More simple items such as text formatting or single options like the clean option are just strings in their arrays. 
+- To override the default settings for something, just set the final item of the array as false. This can be seen with the header option here, where the default settings are overriden and only level 3 headers are included.
+
+After generating the toolbar, alter the Quill editor to include it as a module. 
 
 ```
 const quill = new Quill('#editing', {
@@ -263,7 +269,6 @@ submit_button.addEventListener('click', function (){
 })
 ```
 
-
 ### HTML
 At this point, you now have the delta version of the editor contents. You now have a couple of choices, namely parse the delta object into whatever form is right for you, or simply get the html. The latter option will most likely require some manual parsing and might take more effort, as there are many cases to cover. However it is very flexible if done correctly. The second option is to completely forsake getting the delta objects and just get the HTML. This can be done with the following command
 
@@ -271,9 +276,21 @@ At this point, you now have the delta version of the editor contents. You now ha
 const quillHtml = quill.getSemanticHtml()
 ```
 
-At this point the html equivalent of the editor contents are stored in the quillHtml variable! This is more simple than parsing the delta object, but make sure to sanitize it before putting it in use.
+At this point the HTML equivalent of the editor contents are stored in the quillHtml variable! This is more simple than parsing the delta object.
 
-After choosing whether to use the delta or html version of the content, you can send it to the server through whatever methods you wish, such as a POST request(make sure to have an endpoint for it though!). At that point its up to you how to process it. 
+**Warning:** Be sure to sanitize the html before putting it in use! You can do this after sending the data to the server. Specifically, make sure users don't input <script></script> or other malicious elements anywhere in the HTML. This is to help prevent any XSS attacks so your website stays safe and secure. In a lot of places, this There are many libraries to help with this, including [this](https://www.npmjs.com/package/sanitize-html) library for node and [this](https://pypi.org/project/html-sanitizer/) for python. Sanitizers usually do their jobs with a mixture of removing, escaping, and encoding potentially malicious elements in html.
+
+### Using Both
+If you're stuck deciding between whether to store HTML or delta objects, you can just use both. One of the biggest use cases for this would be in editing scenarios, where you want to take in previous content and display it in the editor again so the user can alter it. This can be done by sending both HTML and delta objects to the server. Then, when you want to display the data, just use the HTML, and when you want to show the editor again with specific content in it, you can load the delta object in. Loading delta objects into a quill editor can be done with the setContents() method. Say for example we wanted to set the contents of the editor to the bolded "Quilljs bolded" string we had earlier. We would just call setContents with the delta object, and the editor contents would be replaced.
+
+```
+quill.setContents({"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"},{"insert":"\n"}]})
+```
+
+### Saving/Loading the Data
+Now that we know how to get the data from the editor, we should consider how to send it to the server. One possible way to do so is through the use of a POST request, assuming you have an endpoint in your server for it. Say we had an endpoint /addcontent which would insert the content into some kind of data storage. We could do a fetch to that endpoint with the data as the body, stored in something like a JSON or FormData object. 
+
+For the editing scenario we just went over, you would most likely want to do something similar. Say we have a scenario in which some kind of article has an edit button. To make the edit button effective, we can query the data storage with fetch and generate the Quill editor on the click of the button, then use quill.setContents(delta) to load in the data from the delta onto the editor. 
 
 ### Images
 By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an img element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents.  
