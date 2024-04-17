@@ -1,0 +1,21 @@
+body{
+    justify-content: center;
+    text-align: center;
+}
+
+#editor_container{
+    width: 60%;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 0px;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+#editing{
+    height: 30vh;
+    width: auto;
+    display: block;
+    background-color: white;
+    border-top: 2px solid rgb(0, 0, 0);
+}
+
