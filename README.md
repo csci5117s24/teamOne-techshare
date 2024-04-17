@@ -19,9 +19,7 @@
 ## Rich Text Editors
 Rich text editors are software tools for text input. Chances are that if you use the internet often, you probably have interacted with a rich text editor, or at least the byproducts of one. One example of a system that uses a rich text editor is Wikipedia, which uses it for generating and editing page content.
 
-
-
-This is an example of a rich text editor *
+This is an example of what a rich text editor might look like*. As you can see, there are several options for formatting text and other visual elements on the toolbar.
 
 ![](/images/image_16.png?raw=true)
 
