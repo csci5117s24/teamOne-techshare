@@ -34,37 +34,7 @@ This tutorial discusses one of the options for someone looking to add a rich tex
 ## Setup Environment 
 We will be using mostly JavaScript and HTML here to demonstrate, so it is assumed that you have some basic knowledge of both. Any method you have to view/serve your files will be good. In this tutorial we will use an express.js server to show our main html file(and the static js file that it links to). Besides what we show here, [this](https://medium.com/@naveednadaf/quick-node-express-js-project-setup-guide-88cd4d9a7af3) is another quick tutorial on how to set up an express server that goes over pretty much everything you'll need for this, from installation to routing. 
 
-The first thing you'll need to do is generate your folder and enter it. Then initialize the node project
-
-```
-npm init
-```
-
-Once everything is installed, add express to the project. 
-```
-npm install express
-```
-At this point, you can generate your server file. Name it whatever you like, but if you name it something other than "index.js", make sure to go into the package.json file and change "main" from "index.js" to whatever your file name is. We used "app.js". 
-
-Now that you have entered your file(henceforth, we will just call it app.js), you can do some setup.
-
-```
-const express = require('express');
-const app = express();
-const path = require('path');
-
-const port = 5117
-```
-
-For storing static files such as CSS and JavaScript, we will use a folder called "resources". We will use the express static middleware to serve these files. 
-
-```
-// absolute path for the directories holding the files that are needed
-const resources_dir = path.join(__dirname, 'resources');
-app.use(express.static(resources_dir));
-```
-
-We will store the HTML in a folder called 'html'. For this tutorial, we will use one file "basic.html" from this folder. Lets setup a route serving this file. For now now basic.html can just be a basic template file, though we will be needing it later.
+The first thing you'll need to do after setup is make a basic html file. 
 
 ```
 <!DOCTYPE html>
@@ -79,22 +49,19 @@ We will store the HTML in a folder called 'html'. For this tutorial, we will use
 </html>
 ```
 
-Now add a route which serves this file as well as a listener. 
+Now add a route which serves this file in your server. 
 
 ```
 app.get('/', (req, res) => {
     res.sendFile((path.join(html_dir, 'basic.html')));
 });
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
 ```
 
-Now we are done with the setup! From here on out everything will be focused on Quill. 
+And thats it for the setup. From here on out everything will be mostly focused on Quill and client side items, though we will take a few detours back to the server code. 
 
 ## Setting Quill Up
-The first thing you'll need is to add to the html. Nothing needs to be in the body(yet), but we should add some links to the head. Specifically, links to the stylesheet for the Quill editor and the Quill library itself. 
+The first thing you'll need to do is add to the html. Nothing needs to be in the body(yet), but we should add some links to the head. Specifically, links to the stylesheet for the Quill editor and the Quill library itself. 
 
 ```
 <!DOCTYPE html>
@@ -288,7 +255,7 @@ At this point the HTML equivalent of the editor contents are stored in the quill
 **Warning:** Be sure to sanitize the html before putting it in use! You can do this after sending the data to the server. Specifically, make sure users don't input <script></script> or other malicious elements anywhere in the HTML. This is to help prevent any XSS attacks so your website stays safe and secure. In a lot of places, this There are many libraries to help with this, including [this](https://www.npmjs.com/package/sanitize-html) library for node and [this](https://pypi.org/project/html-sanitizer/) for python. Sanitizers usually do their jobs with a mixture of removing, escaping, and encoding potentially malicious elements in html.
 
 ### Using Both
-If you're stuck deciding between whether to store HTML or delta objects, you can just use both. One of the biggest use cases for this would be in editing scenarios, where you want to take in previous content and display it in the editor again so the user can alter it. This can be done by sending both HTML and delta objects to the server. Then, when you want to display the data, just use the HTML, and when you want to show the editor again with specific content in it, you can load the delta object in. Loading delta objects into a quill editor can be done with the setContents() method. Say for example we wanted to set the contents of the editor to the bolded "Quilljs bolded" string we had earlier. We would just call setContents with the delta object, and the editor contents would be replaced.
+If you're stuck deciding between whether to store HTML or delta objects, you can just use both. One of the biggest use cases for this would be in editing scenarios, where you want to take in previous content and display it in the editor again so the user can alter it. This can be done by sending both HTML and delta objects to the server. Then, when you want to display the data, just use the HTML, and when you want to show the editor again with specific content in it, you can load the delta object in. Loading delta objects into a quill editor can be done with the setContents() method. Say for example we wanted to set the contents of the editor to the bolded "Quilljs bolded" string we had earlier. We would just call setContents with the delta, and the editor contents would be replaced.
 
 ```
 quill.setContents({"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"},{"insert":"\n"}]})
@@ -297,7 +264,7 @@ quill.setContents({"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"}
 ### Saving/Loading the Data From the Server
 Now that we know how to get the data from the editor, we should consider how to send it to the server. One possible way to do so is through the use of a POST request, assuming you have an endpoint in your server for it. Say we had an endpoint /addcontent which would insert the content into some kind of data storage. We could do a fetch to that endpoint with the data as the body, stored in something like a JSON or FormData object. 
 
-An endpoint for the POST might look like this. 
+Starting an endpoint for the POST in express might look like this. 
 
 ```
 app.post('/addcontent', (req, res) =>{
